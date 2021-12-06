@@ -1,9 +1,11 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from sqla_wrapper import SQLAlchemy
 
 app = Flask(__name__)
 
-db = SQLAlchemy("sqlite:///db.sqlite")
+db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
+db = SQLAlchemy(db_url)
 
 
 class Message(db.Model):
